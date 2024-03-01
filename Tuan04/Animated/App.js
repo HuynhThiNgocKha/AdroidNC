@@ -1,11 +1,12 @@
 import { Text, SafeAreaView, StyleSheet, Animated, View, Button, ImageBackground } from 'react-native';
-import React, {useRef} from 'react';
+import React, {useRef,useState} from 'react';
 
 const App = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const fadeImage = useRef(new Animated.Value(0)).current;
-  
-  const fadeIn = ()=>{
+
+
+  const textIn = ()=>{
     Animated.timing(fadeAnim,{
       toValue: 1,
       duration: 3000,
@@ -13,7 +14,7 @@ const App = () => {
     }).start();
   };
 
-  const fadeOut = ()=>{
+  const textOut = ()=>{
     Animated.timing(fadeAnim,{
       toValue: 0,
       duration: 3000,
@@ -29,10 +30,19 @@ const App = () => {
     }).start();
   };
 
+  const imageOut = ()=>{
+    Animated.timing(fadeImage,{
+      toValue: 0,
+      duration: 3000,
+      useNativeDriver: true ,
+    }).start();
+  };
+
   const spin = fadeImage.interpolate({
     inputRange: [0, 0.5],
     outputRange: ["0deg", "360deg"],
   });
+
 
 
 
@@ -49,19 +59,20 @@ const App = () => {
               },
             ]}>         
             
-            <Text style={styles.fadingText}>Fading View!</Text>       
+            <Text style={styles.fadingText}>Image View</Text>       
           </Animated.View>
 
           <Animated.Image
                 style={[styles.image1,
-                {opacity: fadeImage}, {transform: [{ rotate: spin }]} ]}      
+                {opacity: fadeImage}, {transform: [{ rotate: spin }],} ]}      
                   source={require('./assets/hinh1.png')}
-              />
+          />
 
           <View style={styles.button}>
-            <Button title="Face in View" onPress={fadeIn} />
-            <Button title="Face out View" onPress={fadeOut} />
-            <Button title="Image in" onPress={imageIn} />
+            <Button title="Text in" onPress={textIn}/>
+            <Button title="Text out" onPress={textOut}/>
+            <Button title="Image in" onPress={imageIn}/>
+            <Button title="Image out" onPress={imageOut}/>           
           </View>
         </ImageBackground>
      </View>
@@ -104,8 +115,8 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     borderRadius: 100,
-  } 
-  
+    marginTop: 20,
+  },
  
 });
 export default App;
